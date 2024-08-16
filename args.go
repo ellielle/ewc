@@ -47,9 +47,26 @@ func parseArgs() {
 
 	// TODO: add prettier help output than PrintDefaults()
 
-	if len(files) == 0 {
+	if len(files) == 0 && files[0] == "" {
 		flag.PrintDefaults()
 		return
+	} else {
+		// get the line count, byte count, and word count
+		// and then output them with the file name
+		lc, err := lineCount(files[0])
+		if err != nil {
+			log.Fatal(err)
+		}
+		bc, err := byteCount(files[0])
+		if err != nil {
+			log.Fatal(err)
+		}
+		wc, err := wordCount(files[0])
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Printf("%v %v %v %v\n", lc, wc, bc, files[0])
 	}
 
 	if *help || *helpLong {
@@ -64,6 +81,7 @@ func parseArgs() {
 		}
 
 		fmt.Printf("%v %v\n", bc, files[0])
+		return
 	}
 
 	if *chars || *charsLong {
@@ -73,6 +91,7 @@ func parseArgs() {
 		}
 
 		fmt.Printf("%v %v\n", cc, files[0])
+		return
 	}
 
 	if *lines || *linesLong {
@@ -81,11 +100,12 @@ func parseArgs() {
 			log.Fatal(err)
 		}
 		fmt.Printf("%v %v\n", lc, files[0])
-
+		return
 	}
 
 	if *maxLines || *maxLinesLong {
 		// maxLines()
+		return
 	}
 
 	if *words || *wordsLong {
@@ -95,10 +115,11 @@ func parseArgs() {
 		}
 
 		fmt.Printf("%v %v\n", wc, files[0])
-
+		return
 	}
 
 	if *version || *versionLong {
 		// version()
+		return
 	}
 }
