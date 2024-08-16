@@ -43,18 +43,19 @@ func main() {
 	// it will read from stdin when no file is given
 	files := flag.Args()
 
+	// TODO: add support for multiple files in most functions, replace files[0] with loop
+
 	if len(files) == 0 {
 		flag.PrintDefaults()
 	}
 
 	if *bytes || *bytesLong {
-		// TODO: add support for multiple files, replace files[0] with loop
-		byteCount, err := byteCount(files[0])
+		bc, err := byteCount(files[0])
 		if err != nil {
 			log.Fatal(err)
 		}
 
-		fmt.Printf("%v %v\n", byteCount, files[0])
+		fmt.Printf("%v %v\n", bc, files[0])
 	}
 
 	if *chars || *charsLong {
@@ -62,7 +63,12 @@ func main() {
 	}
 
 	if *lines || *linesLong {
-		// lineCount()
+		lc, err := lineCount(files[0])
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("%v %v\n", lc, files[0])
+
 	}
 
 	if *maxLines || *maxLinesLong {
