@@ -67,7 +67,12 @@ func parseArgs() {
 	}
 
 	if *chars || *charsLong {
-		charCount()
+		cc, err := charCount(files[0])
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Printf("%v %v\n", cc, files[0])
 	}
 
 	if *lines || *linesLong {
