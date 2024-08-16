@@ -2,6 +2,8 @@ package main
 
 import (
 	"flag"
+	"fmt"
+	"log"
 )
 
 func main() {
@@ -41,11 +43,18 @@ func main() {
 	// it will read from stdin when no file is given
 	files := flag.Args()
 
-	if len(files) > 0 {
+	if len(files) == 0 {
+		flag.PrintDefaults()
 	}
 
 	if *bytes || *bytesLong {
-		// byteCount()
+		// TODO: add support for multiple files, replace files[0] with loop
+		byteCount, err := byteCount(files[0])
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		fmt.Printf("%v %v\n", byteCount, files[0])
 	}
 
 	if *chars || *charsLong {
@@ -65,7 +74,7 @@ func main() {
 	}
 
 	if *help || *helpLong {
-		// help()
+		flag.PrintDefaults()
 	}
 
 	if *version || *versionLong {
